@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Online_Test_Platform.Models.TestReport>
+
+@{
+    ViewData["Title"] = "VerbalTestReport";
+}
+
+<h1>VerbalTestReport</h1>
+<h4>@ViewBag.Message</h4>
+
+<p>
+    @using (Html.BeginForm("VerbalSearch","Admin",FormMethod.Get))
+    {
+        <b>Search By:</b> @Html.RadioButton("searchBy","UserID",true) <text>UserID</text>
+        @Html.RadioButton("searchBy","Marks") <text>Marks</text><br />
+        @Html.TextBox("search") <input type="submit" value="Search" />
+    }
+</p>
+
+
+<table class="table">
+    <thead>
+        <tr>
+           @* <th>
+                @Html.DisplayNameFor(model => model.TestId)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestCatagoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Marks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalMarks)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+          @*  <td>
+                @Html.DisplayFor(modelItem => item.TestId)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestCatagoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalMarks)
+            </td>
+            @*<td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>*@
+        </tr>
+}
+    </tbody>
+</table>
+<div>
+    <a  class="btn btn-primary"asp-action="Index" asp-controller="Admin"> Back</a>
+</div>
+
+<style>
+        body {
+            background-image:
+            url("/Image/MarksNew.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+    </style>    

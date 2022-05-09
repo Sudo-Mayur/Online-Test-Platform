@@ -1,0 +1,52 @@
+﻿@model Online_Test_Platform.Models.Question
+@{
+    ViewData["Title"] = "Verbal Test";
+}
+<div class="center">
+<h3>Verbal Test</h3>
+</div>
+
+<div class="center">
+@using(Html.BeginForm("VerbalQuestions","Student",FormMethod.Post))
+{
+    <div class="row">
+    <h3>@Model.Question1</h3>
+</div>
+  
+ <div class="row">   
+       <div>
+       @Html.RadioButton("Mayur", @Model.Option1) @Model.Option1                   
+   </div>
+      <div>
+       @Html.RadioButton("Mayur", @Model.Option2) @Model.Option2                   
+   </div>
+      <div>
+       @Html.RadioButton("Mayur", @Model.Option3) @Model.Option3                  
+   </div>
+      <div>
+       @Html.RadioButton("Mayur", @Model.Option4) @Model.Option4                   
+   </div>
+
+    </div>
+    <br />
+    <input type="submit" value="submit" class="btn btn-success"/>
+
+}
+</div>
+
+<style>
+        body {
+            background-image:
+            url("/Image/Questins1.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+    </style>    
+
+
+<style>
+.center {
+ justify-content: center;
+}
+</style>
