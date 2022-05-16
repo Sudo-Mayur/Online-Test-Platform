@@ -2,7 +2,7 @@
 using Online_Test_Platform.Models;
 using Online_Test_Platform.Services;
 using Online_Test_Platform.SessionExtension;
-
+using System.Collections;
 
 namespace Online_Test_Platform.Controllers
 {
@@ -27,8 +27,6 @@ namespace Online_Test_Platform.Controllers
 
         public IActionResult TestCategory()
         {
-            
-
             return View();
         }
 
@@ -38,32 +36,23 @@ namespace Online_Test_Platform.Controllers
         }
         public IActionResult UserData()
         {
-            Question q = new Question();
-            int? questionid = HttpContext.Session.GetInt32("id");
-            int? m = questionid;
-            if (m == null)
+            //markscategory(1);
+            RandomQuestion(1);
+            var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
+            int? userID = HttpContext.Session.GetInt32("UserID");
+            string currentdate = DateTime.Now.ToShortDateString();
+            var res = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestDate == currentdate && x.TestCatagoryId == 1).FirstOrDefault();
+            if (res == null)
             {
-                var res = service.GetAsync().Result.Where(x => x.TestCatagoryId == 1).FirstOrDefault();
-                HttpContext.Session.SetSessionData<Question>("CorrectAnswer", res);
-                HttpContext.Session.SetInt32("id", res.QuestionId);
-                return View(res);
-
-            }
-            else
-            {
-
-                int? id1 = HttpContext.Session.GetInt32("id");
-                id1++;
-                var res = service.GetAsync().Result.Where(x => x.QuestionId == id1 && x.TestCatagoryId == 1).FirstOrDefault();
-                if (res == null)
+                if (randomList.Count == 10)
                 {
                     return RedirectToAction("UserResponse");
                 }
-                HttpContext.Session.SetSessionData<Question>("CorrectAnswer", res);
-                HttpContext.Session.SetInt32("id", res.QuestionId);
-
-                return View(res);
-
+                return View(data);
+            }
+            else
+            {
+                return View("RepeatExam");
             }
 
         }
@@ -72,213 +61,79 @@ namespace Online_Test_Platform.Controllers
         public IActionResult UserData(IFormCollection frm)
         {
             string uanswer = frm["Mayur"].ToString();
-            var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
-            UserAnswer user = new UserAnswer();
-
-
-            if (uanswer != null)
-            {
-
-                if (uanswer == data.CorrectAnswer)
-                {
-                    user.Marks = 1;
-                    HttpContext.Session.SetInt32("useranswer", user.Marks);
-
-                }
-                else
-                {
-                    user.Marks = 0;
-                    HttpContext.Session.SetInt32("useranswer", user.Marks);
-
-                }
-
-            }
-            else
-            {
-                user.Marks = 0;
-                HttpContext.Session.SetInt32("useranswer", user.Marks);
-
-            }
-
-
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            int? Useranswer = HttpContext.Session.GetInt32("useranswer");
-
-            user.QuestionId = data.QuestionId;
-            user.UserId = userID;
-            user.TestCatagoryId = data.TestCatagoryId;
-            user.UserAnswer1 = uanswer;
-            user.Marks = (int)Useranswer;
-
-            var res = answer.CreateAsync(user).Result;
+            HttpContext.Session.SetString("UserAnswer", uanswer);
+            UserMarksCal();
             return RedirectToAction("UserData");
         }
 
 
         public IActionResult ReasoningQuestions()
         {
-            Question q = new Question();
-            int? questionid = HttpContext.Session.GetInt32("id");
-            int? m = questionid;
-            if (m == null)
+            markscategory(2);
+            int? userID = HttpContext.Session.GetInt32("UserID");
+            string currentdate = DateTime.Now.ToShortDateString();
+            var res = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestDate == currentdate && x.TestCatagoryId == 2).FirstOrDefault();
+            if (res == null)
             {
-                var res = service.GetAsync().Result.Where(x => x.TestCatagoryId == 2).FirstOrDefault();
-                HttpContext.Session.SetSessionData<Question>("CorrectAnswer", res);
-                HttpContext.Session.SetInt32("id", res.QuestionId);
-                return View(res);
-
-            }
-            else
-            {
-
-                int? id1 = HttpContext.Session.GetInt32("id");
-                id1++;
-                var res = service.GetAsync().Result.Where(x => x.QuestionId == id1 && x.TestCatagoryId == 2).FirstOrDefault();
-                if (res == null)
+                var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
+                if (data == null)
                 {
                     return RedirectToAction("UserResponseReasoning");
                 }
-                HttpContext.Session.SetSessionData<Question>("CorrectAnswer", res);
-                HttpContext.Session.SetInt32("id", res.QuestionId);
-
-                return View(res);
-
+                return View(data);
             }
+            else
+            {
+                return View("RepeatExam");
+            }
+
         }
 
         [HttpPost]
         public IActionResult ReasoningQuestions(IFormCollection frm)
         {
             string uanswer = frm["Mayur"].ToString();
-            var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
-            UserAnswer user = new UserAnswer();
-
-            if (uanswer != null)
-            {
-
-                if (uanswer == data.CorrectAnswer)
-                {
-                    user.Marks = 1;
-                    HttpContext.Session.SetInt32("useranswer", user.Marks);
-
-                }
-                else
-                {
-                    user.Marks = 0;
-                    HttpContext.Session.SetInt32("useranswer", user.Marks);
-
-                }
-
-            }
-            else
-            {
-                user.Marks = 0;
-                HttpContext.Session.SetInt32("useranswer", user.Marks);
-
-            }
-
-
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            int? Useranswer = HttpContext.Session.GetInt32("useranswer");
-
-            user.QuestionId = data.QuestionId;
-            user.UserId = userID;
-            user.TestCatagoryId = data.TestCatagoryId;
-            user.UserAnswer1 = uanswer;
-            user.Marks = (int)Useranswer;
-
-            var res = answer.CreateAsync(user).Result;
+            HttpContext.Session.SetString("UserAnswer", uanswer);
+            UserMarksCal();
             return RedirectToAction("ReasoningQuestions");
+
         }
 
         public IActionResult VerbalQuestions()
         {
-            Question q = new Question();
-            int? questionid = HttpContext.Session.GetInt32("id");
-            int? m = questionid;
-            if (m == null)
+            markscategory(3);
+            var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
+            int? userID = HttpContext.Session.GetInt32("UserID");
+            string currentdate = DateTime.Now.ToShortDateString();
+            var res = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestDate == currentdate && x.TestCatagoryId == 3).FirstOrDefault();
+            if (res == null)
             {
-                var res = service.GetAsync().Result.Where(x => x.TestCatagoryId == 3).FirstOrDefault();
-                HttpContext.Session.SetSessionData<Question>("CorrectAnswer", res);
-                HttpContext.Session.SetInt32("id", res.QuestionId);
-                return View(res);
-
+                if (data == null)
+                {
+                    return RedirectToAction("UserResponseVerbal");
+                }
+                return View(data);
             }
             else
             {
-
-                int? id1 = HttpContext.Session.GetInt32("id");
-                id1++;
-                var res = service.GetAsync().Result.Where(x => x.QuestionId == id1 && x.TestCatagoryId == 3).FirstOrDefault();
-                if (res == null)
-                {
-                    return RedirectToAction("UserResponseVerbal", "Student");
-                }
-                HttpContext.Session.SetSessionData<Question>("CorrectAnswer", res);
-                HttpContext.Session.SetInt32("id", res.QuestionId);
-
-                return View(res);
+                return View("RepeatExam");
             }
+
         }
 
         [HttpPost]
         public IActionResult VerbalQuestions(IFormCollection frm)
         {
             string uanswer = frm["Mayur"].ToString();
-            var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
-            UserAnswer user = new UserAnswer();
-
-            if (uanswer != null)
-            {
-
-                if (uanswer == data.CorrectAnswer)
-                {
-                    user.Marks = 1;
-                    HttpContext.Session.SetInt32("useranswer", user.Marks);
-
-                }
-                else
-                {
-                    user.Marks = 0;
-                    HttpContext.Session.SetInt32("useranswer", user.Marks);
-
-                }
-
-            }
-            else
-            {
-                user.Marks = 0;
-                HttpContext.Session.SetInt32("useranswer", user.Marks);
-
-            }
-
-
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            int? Useranswer = HttpContext.Session.GetInt32("useranswer");
-
-            user.QuestionId = data.QuestionId;
-            user.UserId = userID;
-            user.TestCatagoryId = data.TestCatagoryId;
-            user.UserAnswer1 = uanswer;
-            user.Marks = (int)Useranswer;
-
-            var res = answer.CreateAsync(user).Result;
+            HttpContext.Session.SetString("UserAnswer", uanswer);
+            UserMarksCal();
             return RedirectToAction("VerbalQuestions");
+
         }
 
         public IActionResult UserResponse()
         {
-            TestReport test = new TestReport();
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            var res = answer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 1).ToList();
-            var res1 = answer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 1).FirstOrDefault();
-            var marks = res.Sum(x => x.Marks);
-            test.Marks = marks;
-            test.UserId = userID;
-            test.TestCatagoryId = res1.TestCatagoryId;
-            test.TestDate = DateTime.Now.ToShortDateString();
-            test.TotalMarks = 4;
-            var res2 = testreport.CreateAsync(test);
+            ExamEnd(1);
             return View();
         }
 
@@ -297,19 +152,8 @@ namespace Online_Test_Platform.Controllers
 
         public IActionResult UserResponseReasoning()
         {
-            TestReport test = new TestReport();
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            var res = answer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 2).ToList();
-            var res1 = answer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 2).FirstOrDefault();
-            var marks = res.Sum(x => x.Marks);
-            test.Marks = marks;
-            test.UserId = userID;
-            test.TestCatagoryId = res1.TestCatagoryId;
-            test.TestDate = DateTime.Now.ToShortDateString();
-            test.TotalMarks = 2;
-            var res2 = testreport.CreateAsync(test);
+            ExamEnd(2);
             return View();
-
         }
 
         [HttpPost]
@@ -320,19 +164,8 @@ namespace Online_Test_Platform.Controllers
 
         public IActionResult UserResponseVerbal()
         {
-            TestReport test = new TestReport();
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            var res = answer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 3).ToList();
-            var res1 = answer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 3).FirstOrDefault();
-            var marks = res.Sum(x => x.Marks);
-            test.Marks = marks;
-            test.UserId = userID;
-            test.TestCatagoryId = res1.TestCatagoryId;
-            test.TestDate = DateTime.Now.ToShortDateString();
-            test.TotalMarks = 2;
-            var res2 = testreport.CreateAsync(test);
+            ExamEnd(3);
             return View();
-
         }
 
         [HttpPost]
@@ -356,42 +189,144 @@ namespace Online_Test_Platform.Controllers
         }
 
 
-        public IActionResult AptitudeTest()
+        public void markscategory(int categorynum)
         {
-            List<Question> li = service.GetAsync().Result.Where(x => x.TestCatagoryId == 1).ToList();
-            Queue<Question> queue = new Queue<Question>();
-            foreach (Question a in li)
+
+            Question q = new Question();
+            int? questionid = HttpContext.Session.GetInt32("id");
+            int? m = questionid;
+            if (m == null)
             {
-                queue.Enqueue(a);
+                var res = service.GetAsync().Result.Where(x => x.TestCatagoryId == categorynum).FirstOrDefault();
+                HttpContext.Session.SetSessionData<Question>("CorrectAnswer", res);
+                HttpContext.Session.SetInt32("id", res.QuestionId);
+
             }
-          
-            TempData["questions"] = queue;
-            TempData.Keep();
-
-
-            Question q = null;
-            if (TempData["questions"] != null)
+            else
             {
-                Queue<Question> qlist = (Queue<Question>)TempData["questions"];
-                if (qlist.Count > 0)
+
+                int? id1 = HttpContext.Session.GetInt32("id");
+                id1++;
+                var res = service.GetAsync().Result.Where(x => x.QuestionId == id1 && x.TestCatagoryId == categorynum).FirstOrDefault();
+                HttpContext.Session.SetSessionData<Question>("CorrectAnswer", res);
+                if (res != null)
                 {
-                    q = qlist.Peek();
-                    qlist.Dequeue();
-                    TempData["questions"] = qlist;
-                    TempData.Keep();
+                    HttpContext.Session.SetInt32("id", res.QuestionId);
                 }
+
             }
-            return View(q);
-
         }
 
-        [HttpPost]
-        public IActionResult AptitudeTest(IFormCollection frm)
+        public void UserMarksCal()
         {
-            return RedirectToAction("AptitudeTest");
+            string useranswer = HttpContext.Session.GetString("UserAnswer");
+            var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
+            UserAnswer user = new UserAnswer();
+
+
+            if (useranswer != null)
+            {
+
+                if (useranswer == data.CorrectAnswer)
+                {
+                    user.Marks = 1;
+                    HttpContext.Session.SetInt32("UserMarks", user.Marks);
+
+                }
+                else
+                {
+                    user.Marks = 0;
+                    HttpContext.Session.SetInt32("UserMarks", user.Marks);
+
+                }
+
+            }
+            else
+            {
+                user.Marks = 0;
+                HttpContext.Session.SetInt32("UserMarks", user.Marks);
+
+            }
+
+
+            int? userID = HttpContext.Session.GetInt32("UserID");
+            int? UserMarks = HttpContext.Session.GetInt32("UserMarks");
+
+            user.QuestionId = data.QuestionId;
+            user.UserId = userID;
+            user.TestCatagoryId = data.TestCatagoryId;
+            user.UserAnswer1 = useranswer;
+            user.Marks = (int)UserMarks;
+
+            var res = answer.CreateAsync(user).Result;
         }
+
+        public void ExamEnd(int catnum)
+        {
+            TestReport test = new TestReport();
+            int? userID = HttpContext.Session.GetInt32("UserID");
+            var res = answer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == catnum).ToList();
+            var res1 = answer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == catnum).FirstOrDefault();
+            var marks = res.Sum(x => x.Marks);
+            test.Marks = marks;
+            test.UserId = userID;
+            test.TestCatagoryId = res1.TestCatagoryId;
+            test.TestDate = DateTime.Now.ToShortDateString();
+            if (catnum == 1)
+            {
+                test.TotalMarks = 10;
+            }
+            else if (catnum == 2)
+            {
+                test.TotalMarks = 10;
+            }
+            else
+            {
+                test.TotalMarks = 10;
+            }
+
+            var res2 = testreport.CreateAsync(test);
+        }
+
+        public IActionResult RepeatExam()
+        {
+            return View();
+        }
+
+        public int Randomnumber()
+        {
+            Random rnd = new Random();
+            int num = rnd.Next(1, 11);
+            return num;
+        }
+
+
+        public static List<int> randomList = new List<int>();
+        public void RandomQuestion(int categorynum)
+        {
+            int num = 0;
+            do
+            {
+                num = Randomnumber();
+                if (!randomList.Contains(num))
+                {
+                    var resnew = service.GetAsync().Result.Where(x => x.TestCatagoryId == categorynum && x.QuestionId == num).FirstOrDefault();
+                    HttpContext.Session.SetSessionData<Question>("CorrectAnswer", resnew);
+                }
+            } while (randomList.Contains(num));
+
+            if (!randomList.Contains(num))
+            {
+                randomList.Add(num);
+            }
+        }
+
     }
 }
 
-//sdsad
+
+
+
+
+
 

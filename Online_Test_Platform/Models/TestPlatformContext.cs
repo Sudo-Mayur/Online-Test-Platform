@@ -68,7 +68,7 @@ namespace Online_Test_Platform.Models
                 entity.HasOne(d => d.TestCatagory)
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.TestCatagoryId)
-                    .HasConstraintName("FK__Questions__TestC__31EC6D26");
+                    .HasConstraintName("FK__Questions__TestC__4CA06362");
             });
 
             modelBuilder.Entity<TestCatagory>(entity =>
@@ -89,7 +89,7 @@ namespace Online_Test_Platform.Models
             modelBuilder.Entity<TestReport>(entity =>
             {
                 entity.HasKey(e => e.TestId)
-                    .HasName("PK__TestRepo__8CC33100FEC31588");
+                    .HasName("PK__TestRepo__8CC331000B38C0B7");
 
                 entity.ToTable("TestReport");
 
@@ -106,18 +106,18 @@ namespace Online_Test_Platform.Models
                 entity.HasOne(d => d.TestCatagory)
                     .WithMany(p => p.TestReports)
                     .HasForeignKey(d => d.TestCatagoryId)
-                    .HasConstraintName("FK__TestRepor__TestC__35BCFE0A");
+                    .HasConstraintName("FK__TestRepor__TestC__5070F446");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.TestReports)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__TestRepor__UserI__34C8D9D1");
+                    .HasConstraintName("FK__TestRepor__UserI__4F7CD00D");
             });
 
             modelBuilder.Entity<UserAnswer>(entity =>
             {
                 entity.HasKey(e => e.AnswerId)
-                    .HasName("PK__UserAnsw__D4825024E511BCB5");
+                    .HasName("PK__UserAnsw__D4825024A84EE192");
 
                 entity.Property(e => e.AnswerId).HasColumnName("AnswerID");
 
@@ -135,17 +135,17 @@ namespace Online_Test_Platform.Models
                 entity.HasOne(d => d.Question)
                     .WithMany(p => p.UserAnswers)
                     .HasForeignKey(d => d.QuestionId)
-                    .HasConstraintName("FK__UserAnswe__Quest__38996AB5");
+                    .HasConstraintName("FK__UserAnswe__Quest__534D60F1");
 
                 entity.HasOne(d => d.TestCatagory)
                     .WithMany(p => p.UserAnswers)
                     .HasForeignKey(d => d.TestCatagoryId)
-                    .HasConstraintName("FK__UserAnswe__TestC__3A81B327");
+                    .HasConstraintName("FK__UserAnswe__TestC__5535A963");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserAnswers)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__UserAnswe__UserI__398D8EEE");
+                    .HasConstraintName("FK__UserAnswe__UserI__5441852A");
             });
 
             modelBuilder.Entity<UserInfo>(entity =>
