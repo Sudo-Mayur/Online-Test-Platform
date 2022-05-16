@@ -205,9 +205,10 @@ namespace Online_Test_Platform.Controllers
             else
             {
 
-                int? id1 = HttpContext.Session.GetInt32("id");
-                id1++;
-                var res = service.GetAsync().Result.Where(x => x.QuestionId == id1 && x.TestCatagoryId == categorynum).FirstOrDefault();
+                //int? id1 = HttpContext.Session.GetInt32("id");
+                //id1++;
+                questionid++;
+                var res = service.GetAsync().Result.Where(x => x.QuestionId == questionid && x.TestCatagoryId == categorynum).FirstOrDefault();
                 HttpContext.Session.SetSessionData<Question>("CorrectAnswer", res);
                 if (res != null)
                 {

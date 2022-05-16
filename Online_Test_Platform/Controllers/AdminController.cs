@@ -154,8 +154,3 @@ namespace Online_Test_Platform.Controllers
         }
     }
 }
-
-
-
-
-
