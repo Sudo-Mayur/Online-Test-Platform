@@ -103,6 +103,10 @@ namespace Online_Test_Platform.Models
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
+                entity.Property(e => e.UserName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.HasOne(d => d.TestCatagory)
                     .WithMany(p => p.TestReports)
                     .HasForeignKey(d => d.TestCatagoryId)
@@ -163,6 +167,10 @@ namespace Online_Test_Platform.Models
                     .HasColumnName("EmailID");
 
                 entity.Property(e => e.RoleId).HasColumnName("RoleID");
+
+                entity.Property(e => e.UserName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UserPassword)
                     .HasMaxLength(50)

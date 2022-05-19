@@ -145,8 +145,9 @@ namespace Online_Test_Platform.Controllers
 
         public IActionResult UserMarks()
         {
+            HttpContext.Session.SetInt32("id", 1);
             int? userID = HttpContext.Session.GetInt32("UserID");
-            var res3 = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 1).ToList();
+            var res3 = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 1).ToList();          
             return View(res3);
         }
 
@@ -176,6 +177,7 @@ namespace Online_Test_Platform.Controllers
 
         public IActionResult ReasoningMarks()
         {
+            HttpContext.Session.SetInt32("idrea", 2);
             int? userID = HttpContext.Session.GetInt32("UserID");
             var res3 = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 2).ToList();
             return View(res3);
@@ -183,6 +185,7 @@ namespace Online_Test_Platform.Controllers
 
         public IActionResult VerbalMarks()
         {
+            HttpContext.Session.SetInt32("idver", 3);
             int? userID = HttpContext.Session.GetInt32("UserID");
             var res3 = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 3).ToList();
             return View(res3);
@@ -193,26 +196,23 @@ namespace Online_Test_Platform.Controllers
         {
 
             Question q = new Question();
-            int? questionid = HttpContext.Session.GetInt32("id");
+            int? questionid = HttpContext.Session.GetInt32("Qid");
             int? m = questionid;
             if (m == null)
             {
                 var res = service.GetAsync().Result.Where(x => x.TestCatagoryId == categorynum).FirstOrDefault();
                 HttpContext.Session.SetSessionData<Question>("CorrectAnswer", res);
-                HttpContext.Session.SetInt32("id", res.QuestionId);
+                HttpContext.Session.SetInt32("Qid", res.QuestionId);
 
             }
             else
             {
-
-                //int? id1 = HttpContext.Session.GetInt32("id");
-                //id1++;
                 questionid++;
                 var res = service.GetAsync().Result.Where(x => x.QuestionId == questionid && x.TestCatagoryId == categorynum).FirstOrDefault();
                 HttpContext.Session.SetSessionData<Question>("CorrectAnswer", res);
                 if (res != null)
                 {
-                    HttpContext.Session.SetInt32("id", res.QuestionId);
+                    HttpContext.Session.SetInt32("Qid", res.QuestionId);
                 }
 
             }
@@ -220,7 +220,7 @@ namespace Online_Test_Platform.Controllers
 
         public void UserMarksCal()
         {
-            string useranswer = HttpContext.Session.GetString("UserAnswer");
+            string? useranswer = HttpContext.Session.GetString("UserAnswer");
             var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
             UserAnswer user = new UserAnswer();
 
@@ -258,6 +258,7 @@ namespace Online_Test_Platform.Controllers
             user.TestCatagoryId = data.TestCatagoryId;
             user.UserAnswer1 = useranswer;
             user.Marks = (int)UserMarks;
+            
 
             var res = answer.CreateAsync(user).Result;
         }
@@ -266,6 +267,7 @@ namespace Online_Test_Platform.Controllers
         {
             TestReport test = new TestReport();
             int? userID = HttpContext.Session.GetInt32("UserID");
+            string? UserName = HttpContext.Session.GetString("UserName");
             var res = answer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == catnum).ToList();
             var res1 = answer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == catnum).FirstOrDefault();
             var marks = res.Sum(x => x.Marks);
@@ -273,20 +275,10 @@ namespace Online_Test_Platform.Controllers
             test.UserId = userID;
             test.TestCatagoryId = res1.TestCatagoryId;
             test.TestDate = DateTime.Now.ToShortDateString();
-            if (catnum == 1)
-            {
-                test.TotalMarks = 10;
-            }
-            else if (catnum == 2)
-            {
-                test.TotalMarks = 10;
-            }
-            else
-            {
-                test.TotalMarks = 10;
-            }
-
+            test.TotalMarks = 10;
+            test.UserName = UserName;
             var res2 = testreport.CreateAsync(test);
+            HttpContext.Session.Remove("Qid");
         }
 
         public IActionResult RepeatExam()

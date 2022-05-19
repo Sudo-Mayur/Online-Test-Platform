@@ -55,3 +55,9 @@ app.MapControllerRoute(
 app.Run();
 
 
+//[Required(ErrorMessage = "Email is Required")]
+//[Email(ErrorMessage = "Please Enter  Email in Correct Format")]
+//public string? EmailId { get; set; }
+//[Required(ErrorMessage = "Password is Required")]
+//[Password(ErrorMessage = "Please Enter Strong Password")]
+//public string? UserPassword { get; set; }

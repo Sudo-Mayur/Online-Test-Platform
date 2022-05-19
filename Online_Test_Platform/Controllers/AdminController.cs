@@ -12,7 +12,6 @@ namespace Online_Test_Platform.Controllers
         {
             this.service = service;
         }
-
         public IActionResult Index()
         {
             return View();
@@ -38,7 +37,6 @@ namespace Online_Test_Platform.Controllers
 
         public IActionResult Search(string SearchBy, int search)
         {
-
             if (search == 0)
             {
                 ViewBag.Message = "No Record Found";

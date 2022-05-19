@@ -38,6 +38,13 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }*@
+ <div class="center">
+     <div class="form-group">
+     <a class="btn btn-primary" asp-area="" asp-controller="Login" asp-action="Create">Registration</a>
+     </div>
+     </div>
+
+
 <div class="center">
 <h4>@ViewBag.Message</h4>
 </div>
@@ -107,3 +114,7 @@
 }
 </style>
            
+
+
+
+        

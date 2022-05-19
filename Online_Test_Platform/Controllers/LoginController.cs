@@ -35,8 +35,10 @@ namespace Online_Test_Platform.Controllers
                 if (user.UserPassword== decryptedPassword)
                 {
                     HttpContext.Session.SetInt32("UserID", res.UserId);
+                 
                     if (res.RoleId==1)
                     {
+                        HttpContext.Session.SetString("UserName", res.UserName);
                         return RedirectToAction("Index", "Student");
                     }
                     else
@@ -56,6 +58,45 @@ namespace Online_Test_Platform.Controllers
                 return View(user);
             }
         }
+
+        public async Task<IActionResult> Create()
+        {
+            var user = new UserInfo();
+            return View(user);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(UserInfo Info)
+        {
+           var UserData= service.GetAsync().Result.Where(x=>x.EmailId==Info.EmailId).FirstOrDefault();
+            if(UserData==null)
+            {
+                if (Info.UserPassword == null || Info.EmailId == null || Info.UserName==null)
+                {
+                    ViewBag.Message = "Please Enter Email Password and Name";
+                    return View(Info);
+                }
+
+                if (ModelState.IsValid)
+                {
+                    Info.RoleId = 1;
+                    Info.UserPassword = EncryptAsync(Info.UserPassword);
+                    var res = await service.CreateAsync(Info);
+                    ViewBag.Message = "User Register Successfully";
+                    return View(Info);
+                }
+                else
+                {
+                    return View(Info);
+                }
+            }
+            else
+            {
+                ViewBag.Message = "EmailID in Already Register,Please Enter Correct EmailID";
+                return View(Info);
+            }
+
+        }
+
 
         public async Task<string> DecryptAsync(string text)
         {
@@ -81,6 +122,31 @@ namespace Online_Test_Platform.Controllers
                 toReturn = encoding.GetString(ms.ToArray());
             }
             return toReturn;
+        }
+
+        public string EncryptAsync(string message)
+        {
+            var textToEncrypt = message;
+            string toReturn = string.Empty;
+            string publicKey = "12345678";
+            string secretKey = "87654321";
+            byte[] secretkeyByte;
+            secretkeyByte = System.Text.Encoding.UTF8.GetBytes(secretKey);
+            byte[] publickeybyte;
+            publickeybyte = System.Text.Encoding.UTF8.GetBytes(publicKey);
+            MemoryStream ms = null;
+            CryptoStream cs = null;
+            byte[] inputbyteArray = System.Text.Encoding.UTF8.GetBytes(textToEncrypt);
+            using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
+            {
+                ms = new MemoryStream();
+                cs = new CryptoStream(ms, des.CreateEncryptor(publickeybyte, secretkeyByte), CryptoStreamMode.Write);
+                cs.Write(inputbyteArray, 0, inputbyteArray.Length);
+                cs.FlushFinalBlock();
+                toReturn = Convert.ToBase64String(ms.ToArray());
+            }
+            return toReturn;
+
         }
 
     }

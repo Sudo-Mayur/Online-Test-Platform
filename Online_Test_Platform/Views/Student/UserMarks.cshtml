@@ -4,7 +4,7 @@
     ViewData["Title"] = "UserMarks";
 }
 
-<h1>UserMarks</h1>
+<h1>Aptitude Marks</h1>
 
 @*<p>
     <a asp-action="Create">Create New</a>
@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.UserId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TestCatagoryId)
+                @Html.DisplayNameFor(model => model.UserName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Marks)
@@ -43,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.UserId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TestCatagoryId)
+                @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Marks)
@@ -54,11 +54,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TestDate)
             </td>
-            @*<td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>*@
+            <td>              
+                @Html.ActionLink("Details", "MarksDetails","DetailMarks",  new { id=item.TestDate } ) 
+            </td>
         </tr>
 }
     </tbody>

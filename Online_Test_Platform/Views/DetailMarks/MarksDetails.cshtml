@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Online_Test_Platform.Models.MarksDetails>
+
+@{
+    ViewData["Title"] = "MarksDetails";
+}
+
+<h1>MarksDetails</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>
+                @Html.DisplayNameFor(model => model.QuestionID)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Question)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CorrectAns)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserAns)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Marks)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+          @*  <td>
+                @Html.DisplayFor(modelItem => item.QuestionID)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Question)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CorrectAns)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserAns)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marks)
+            </td>
+           @* <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>*@
+        </tr>
+}
+    </tbody>
+</table>
+<br/>
+ <div>
+    <a  class="btn btn-primary"asp-action="UserMarks" asp-controller="Student"> Back</a>
+</div>
+
+
+<style>
+        body {
+            background-image:
+            url("/Image/MarksNew.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+    </style>    

@@ -43,12 +43,28 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVmVyYmFsVGVzdFJlcG9ydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Coditas/source/repos/Online_Test_Platform/Online_Test_Platform/Views/DetailMarks/MarksDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV0YWlsTWFya3NcTWFya3NEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Coditas/source/repos/Online_Test_Platform/Online_Test_Platform/Views/DetailMarks/MarksDetailsReasoning.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV0YWlsTWFya3NcTWFya3NEZXRhaWxzUmVhc29uaW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Coditas/source/repos/Online_Test_Platform/Online_Test_Platform/Views/DetailMarks/MarksDetailsVerbal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV0YWlsTWFya3NcTWFya3NEZXRhaWxzVmVyYmFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Coditas/source/repos/Online_Test_Platform/Online_Test_Platform/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Coditas/source/repos/Online_Test_Platform/Online_Test_Platform/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Coditas/source/repos/Online_Test_Platform/Online_Test_Platform/Views/Login/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Coditas/source/repos/Online_Test_Platform/Online_Test_Platform/Views/Login/Index.cshtml]

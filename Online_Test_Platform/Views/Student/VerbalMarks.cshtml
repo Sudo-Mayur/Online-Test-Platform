@@ -4,7 +4,7 @@
     ViewData["Title"] = "VerbalMarks";
 }
 
-<h1>VerbalMarks</h1>
+<h1>Verbal Marks</h1>
 
 
 <table class="table">
@@ -17,7 +17,7 @@
                 @Html.DisplayNameFor(model => model.UserId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TestCatagoryId)
+                @Html.DisplayNameFor(model => model.UserName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Marks)
@@ -41,7 +41,7 @@
                 @Html.DisplayFor(modelItem => item.UserId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TestCatagoryId)
+                @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Marks)
@@ -52,11 +52,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TestDate)
             </td>
-           @* <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>*@
+            <td>
+                @Html.ActionLink("Details", "MarksDetailsVerbal","DetailMarks",  new { id=item.TestDate } ) 
+            </td>
         </tr>
 }
     </tbody>
