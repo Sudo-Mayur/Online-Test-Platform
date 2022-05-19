@@ -12,23 +12,44 @@ namespace Online_Test_Platform.Services
         }
         async Task<UserAnswer> IService<UserAnswer, int>.CreateAsync(UserAnswer entity)
         {
-            var res = await context.UserAnswers.AddAsync(entity);
-            await context.SaveChangesAsync();
-            return res.Entity;
+            try
+            {
+                var res = await context.UserAnswers.AddAsync(entity);
+                await context.SaveChangesAsync();
+                return res.Entity;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         async Task<IEnumerable<UserAnswer>> IService<UserAnswer, int>.GetAsync()
         {
-            var res = await context.UserAnswers.ToListAsync();
-            return res;
+            try
+            {
+                var res = await context.UserAnswers.ToListAsync();
+                return res;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         async Task<UserAnswer> IService<UserAnswer, int>.GetByIdAsync(int id)
         {
-            var res = await context.UserAnswers.FindAsync(id);
+            try
+            {
+                var res = await context.UserAnswers.FindAsync(id);
 #pragma warning disable CS8603 // Possible null reference return.
-            return res;
+                return res;
 #pragma warning restore CS8603 // Possible null reference return.
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

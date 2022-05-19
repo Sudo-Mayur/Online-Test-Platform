@@ -31,7 +31,7 @@ namespace Online_Test_Platform.Controllers
 
         public IActionResult VerbalTestReport()
         {
-            var res = service.GetAsync().Result.Where(x => x.TestCatagoryId == 2);
+            var res = service.GetAsync().Result.Where(x => x.TestCatagoryId == 3);
             return View(res);
         }
 
@@ -152,3 +152,4 @@ namespace Online_Test_Platform.Controllers
         }
     }
 }
+

@@ -12,27 +12,48 @@ namespace Online_Test_Platform.Services
         }
         async Task<TestReport> IService<TestReport, int>.CreateAsync(TestReport entity)
         {
-            var res = await context.TestReports.AddAsync(entity);
-            await context.SaveChangesAsync();
-            return res.Entity;
+            try
+            {
+                var res = await context.TestReports.AddAsync(entity);
+                await context.SaveChangesAsync();
+                return res.Entity;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         async Task<IEnumerable<TestReport>> IService<TestReport, int>.GetAsync()
         {
-            var res = await context.TestReports.ToListAsync();
-            return res;
+            try
+            {
+                var res = await context.TestReports.ToListAsync();
+                return res;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         async Task<TestReport> IService<TestReport, int>.GetByIdAsync(int id)
         {
-            var res = await context.TestReports.FindAsync(id);
-            if (res == null)
+            try
             {
+                var res = await context.TestReports.FindAsync(id);
+                if (res == null)
+                {
 #pragma warning disable CS8603 // Possible null reference return.
-                return null;
+                    return null;
 #pragma warning restore CS8603 // Possible null reference return.
+                }
+                return res;
             }
-            return res;
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

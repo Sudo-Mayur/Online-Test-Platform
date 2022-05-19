@@ -11,16 +11,30 @@ namespace Online_Test_Platform.Services
             this.context = context;
         }
         async Task<UserInfo> IService<UserInfo, int>.CreateAsync(UserInfo entity)
-        {            
+        {
+            try
+            {
                 var res = await context.UserInfos.AddAsync(entity);
                 await context.SaveChangesAsync();
-                return res.Entity;          
+                return res.Entity;
+            }
+            catch (Exception)
+            {
+                throw;
+            }     
         }
 
         async Task<IEnumerable<UserInfo>> IService<UserInfo, int>.GetAsync()
         {
-            var res = await context.UserInfos.ToListAsync();
-            return res;
+            try
+            {
+                var res = await context.UserInfos.ToListAsync();
+                return res;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         Task<UserInfo> IService<UserInfo, int>.GetByIdAsync(int id)

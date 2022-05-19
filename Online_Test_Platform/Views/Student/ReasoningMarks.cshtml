@@ -3,9 +3,9 @@
 @{
     ViewData["Title"] = "ReasoningMarks";
 }
-
+<div class="center">
 <h1>Reasoning Marks</h1>
-
+</div>
 
 <table class="table">
     <thead>
@@ -53,7 +53,7 @@
                 @Html.DisplayFor(modelItem => item.TestDate)
             </td>
              <td>              
-                @Html.ActionLink("Details", "MarksDetailsReasoning","DetailMarks",  new { id=item.TestDate } ) 
+                @Html.ActionLink("Details", "MarksDetailsReasoning","DetailMarks") 
             </td>
         </tr>
 }
@@ -71,4 +71,10 @@
             background-attachment: fixed;
             background-size: 100% 100%;
         }
-    </style>    
+    </style>
+    
+<style>
+.center {
+ justify-content: center;
+}
+</style>

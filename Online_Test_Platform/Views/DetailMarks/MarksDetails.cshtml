@@ -4,11 +4,11 @@
     ViewData["Title"] = "MarksDetails";
 }
 
-<h1>MarksDetails</h1>
+<div class="center">
+<h1>Aptitude Test Marks Details</h1>
+</div>
 
-@*<p>
-    <a asp-action="Create">Create New</a>
-</p>*@
+
 <table class="table">
     <thead>
         <tr>
@@ -48,11 +48,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Marks)
             </td>
-           @* <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>*@
+          
         </tr>
 }
     </tbody>
@@ -72,3 +68,9 @@
             background-size: 100% 100%;
         }
     </style>    
+
+<style>
+.center {
+ justify-content: center;
+}
+</style>

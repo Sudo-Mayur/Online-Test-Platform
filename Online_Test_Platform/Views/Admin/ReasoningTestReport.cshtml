@@ -3,9 +3,12 @@
 @{
     ViewData["Title"] = "ReasoningTestReport";
 }
-
-<h1>ReasoningTestReport</h1>
+<div class="center">
+<h1>Reasoning Test Report</h1>
+</div>
+<div class="center">
 <h4>@ViewBag.Message</h4>
+</div>
 
 <p>
     @using (Html.BeginForm("ReasoningSearch","Admin",FormMethod.Get))
@@ -61,11 +64,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TestDate)
             </td>           
-            @*<td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>*@
         </tr>
 }
     </tbody>
@@ -78,9 +76,15 @@
 <style>
         body {
             background-image:
-            url("/Image/MarksNew.jpg");
+            url("/Image/Admin.jpg");
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: 100% 100%;
         }
     </style>    
+
+<style>
+.center {
+ justify-content: center;
+}
+</style>

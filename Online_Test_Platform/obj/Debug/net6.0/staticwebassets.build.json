@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "kl9NaSjWqNGWXq3pBgYNjd9bPcuILIU9esZc3gavj4g=",
+  "Hash": "A34/TuLWi8cDX3JDNFSo0sUC7Ntve3Iq9R1nY5B17es=",
   "Source": "Online_Test_Platform",
   "BasePath": "_content/Online_Test_Platform",
   "Mode": "Default",
@@ -85,6 +85,23 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
+      "Identity": "C:\\Users\\Coditas\\source\\repos\\Online_Test_Platform\\Online_Test_Platform\\wwwroot\\Image\\Admin.jpg",
+      "SourceId": "Online_Test_Platform",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Coditas\\source\\repos\\Online_Test_Platform\\Online_Test_Platform\\wwwroot\\",
+      "BasePath": "_content/Online_Test_Platform",
+      "RelativePath": "Image/Admin.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Image\\Admin.jpg"
+    },
+    {
       "Identity": "C:\\Users\\Coditas\\source\\repos\\Online_Test_Platform\\Online_Test_Platform\\wwwroot\\Image\\Education.jpg",
       "SourceId": "Online_Test_Platform",
       "SourceType": "Discovered",
@@ -100,6 +117,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Image\\Education.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Coditas\\source\\repos\\Online_Test_Platform\\Online_Test_Platform\\wwwroot\\Image\\ExamNew.jpg",
+      "SourceId": "Online_Test_Platform",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Coditas\\source\\repos\\Online_Test_Platform\\Online_Test_Platform\\wwwroot\\",
+      "BasePath": "_content/Online_Test_Platform",
+      "RelativePath": "Image/ExamNew.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Image\\ExamNew.jpg"
     },
     {
       "Identity": "C:\\Users\\Coditas\\source\\repos\\Online_Test_Platform\\Online_Test_Platform\\wwwroot\\Image\\MarksNew.jpg",
@@ -168,6 +202,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Image\\Questions.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Coditas\\source\\repos\\Online_Test_Platform\\Online_Test_Platform\\wwwroot\\Image\\RegistrationNewOne.jpg",
+      "SourceId": "Online_Test_Platform",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Coditas\\source\\repos\\Online_Test_Platform\\Online_Test_Platform\\wwwroot\\",
+      "BasePath": "_content/Online_Test_Platform",
+      "RelativePath": "Image/RegistrationNewOne.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Image\\RegistrationNewOne.jpg"
     },
     {
       "Identity": "C:\\Users\\Coditas\\source\\repos\\Online_Test_Platform\\Online_Test_Platform\\wwwroot\\js\\site.js",
