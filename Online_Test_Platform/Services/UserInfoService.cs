@@ -11,12 +11,10 @@ namespace Online_Test_Platform.Services
             this.context = context;
         }
         async Task<UserInfo> IService<UserInfo, int>.CreateAsync(UserInfo entity)
-        {
-            
+        {            
                 var res = await context.UserInfos.AddAsync(entity);
                 await context.SaveChangesAsync();
-                return res.Entity;
-           
+                return res.Entity;          
         }
 
         async Task<IEnumerable<UserInfo>> IService<UserInfo, int>.GetAsync()

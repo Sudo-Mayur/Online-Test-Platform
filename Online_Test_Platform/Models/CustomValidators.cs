@@ -8,7 +8,8 @@ namespace Online_Test_Platform.Models
             public override bool IsValid(object value)
             {
                 Regex re = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-                if (re.IsMatch(Convert.ToString(value)))
+#pragma warning disable CS8604 // Possible null reference argument.
+            if (re.IsMatch(Convert.ToString(value)))
                 {
                     return true;
                 }
@@ -16,8 +17,9 @@ namespace Online_Test_Platform.Models
                 {
                     return false;
                 }
+#pragma warning restore CS8604 // Possible null reference argument.
 
-            }
+        }
         }
 
     public class PasswordAttribute : ValidationAttribute
@@ -25,6 +27,7 @@ namespace Online_Test_Platform.Models
         public override bool IsValid(object value)
         {
             Regex re = new Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,20}$");
+#pragma warning disable CS8604 // Possible null reference argument.
             if (re.IsMatch(Convert.ToString(value)))
             {
                 return true;
@@ -33,6 +36,7 @@ namespace Online_Test_Platform.Models
             {
                 return false;
             }
+#pragma warning restore CS8604 // Possible null reference argument.
 
         }
     }

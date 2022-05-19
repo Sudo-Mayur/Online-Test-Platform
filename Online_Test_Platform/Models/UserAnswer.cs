@@ -11,6 +11,7 @@ namespace Online_Test_Platform.Models
         public int? TestCatagoryId { get; set; }
         public string? UserAnswer1 { get; set; }
         public int Marks { get; set; }
+        public string? TestDate { get; set; }
 
         public virtual Question? Question { get; set; }
         public virtual TestCatagory? TestCatagory { get; set; }

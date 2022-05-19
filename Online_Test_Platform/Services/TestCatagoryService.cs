@@ -28,7 +28,9 @@ namespace Online_Test_Platform.Services
             var res=await context.TestCatagories.FindAsync(id);
             if(res == null)
             {
+#pragma warning disable CS8603 // Possible null reference return.
                 return null;
+#pragma warning restore CS8603 // Possible null reference return.
             }
             return res;
         }

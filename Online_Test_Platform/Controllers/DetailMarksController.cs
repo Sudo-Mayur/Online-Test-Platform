@@ -7,20 +7,41 @@ namespace Online_Test_Platform.Controllers
     public class DetailMarksController : Controller
     {
         private readonly IService<Question, int> service;
-        private readonly IService<UserAnswer, int> Useranswer;
+        private readonly IService<UserAnswer, int> useranswer;
 
         public DetailMarksController(IService<Question, int> service, IService<UserAnswer, int> useranswer)
         {
             this.service = service;
-            Useranswer = useranswer;
+            this.useranswer = useranswer;
         }
 
         public IActionResult MarksDetails()
         {
             try
             {
-                int? questionidAp = HttpContext.Session.GetInt32("id");
-                CategoryID(questionidAp);
+            
+                int? AptitudeQuestion = HttpContext.Session.GetInt32("id");
+                CategoryID(AptitudeQuestion);
+                //throw new Exception();
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+            }
+        }
+        public IActionResult MarksDetailsReasoning()
+        {
+
+            try
+            {
+                int? ReasoningQuestion = HttpContext.Session.GetInt32("idrea");
+                CategoryID(ReasoningQuestion);
                 return View();
             }
             catch (Exception ex)
@@ -34,44 +55,64 @@ namespace Online_Test_Platform.Controllers
 
             }
         }
-        public IActionResult MarksDetailsReasoning()
-        {
-            int? questionidrea = HttpContext.Session.GetInt32("idrea");
-            CategoryID(questionidrea);
-            return View();
-        }
         public IActionResult MarksDetailsVerbal()
         {
-            int? questionidver = HttpContext.Session.GetInt32("idver");
-            CategoryID(questionidver);
-            return View();
+            try
+            {
+                int? VerbalQuestion = HttpContext.Session.GetInt32("idver");
+                CategoryID(VerbalQuestion);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+
+            }
         }
 
         public IActionResult CategoryID(int? CatID)
         {
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            var resQues = service.GetAsync().Result.Where(x => x.TestCatagoryId == CatID).ToList();
-            var resUser = Useranswer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == CatID).ToList();
-
-            var Resultant = from e in resQues
-                            join d in resUser on
-                            e.QuestionId equals d.QuestionId
-                            select new
-                            {
-                                QuestionID = e.QuestionId,
-                                Question = e.Question1,
-                                CorrectAns = e.CorrectAnswer,
-                                UserAns = d.UserAnswer1,
-                                Marks = d.Marks,
-                            };
-
-            List<MarksDetails> marksdetails = new List<MarksDetails>();
-            foreach (var d in Resultant)
+            try
             {
-                marksdetails.Add(new MarksDetails() { QuestionID = d.QuestionID, Question = d.Question, CorrectAns = d.CorrectAns, UserAns = d.UserAns, Marks = d.Marks });
-            }
+                int? userID = HttpContext.Session.GetInt32("UserID");
+                var QuestionResult = service.GetAsync().Result.Where(x => x.TestCatagoryId == CatID).ToList();
+                var UserResult = useranswer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == CatID).ToList();
 
-            return View(marksdetails);
+                var Resultant = from Question in QuestionResult
+                                join Answer in UserResult on
+                                Question.QuestionId equals Answer.QuestionId
+                                select new
+                                {
+                                    QuestionID = Question.QuestionId,
+                                    Question = Question.Question1,
+                                    CorrectAns = Question.CorrectAnswer,
+                                    UserAns = Answer.UserAnswer1,
+                                    Marks = Answer.Marks,
+                                };
+
+                List<MarksDetails> marksdetails = new List<MarksDetails>();
+                foreach (var item in Resultant)
+                {
+                    marksdetails.Add(new MarksDetails() { QuestionID = item.QuestionID, Question = item.Question, CorrectAns = item.CorrectAns, UserAns = item.UserAns, Marks = item.Marks });
+                }
+
+                return View(marksdetails);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+
+            }
         }
     }
 }

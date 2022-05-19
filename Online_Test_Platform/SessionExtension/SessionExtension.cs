@@ -14,11 +14,15 @@ namespace Online_Test_Platform.SessionExtension
             var data = session.GetString(sessionKey);
             if (data == null)
             {
+#pragma warning disable CS8603 // Possible null reference return.
                 return default(T);
+#pragma warning restore CS8603 // Possible null reference return.
             }
             else
             {
+#pragma warning disable CS8603 // Possible null reference return.
                 return JsonSerializer.Deserialize<T>(data);
+#pragma warning restore CS8603 // Possible null reference return.
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Online_Test_Platform.Models;
 using Online_Test_Platform.Services;
 using Online_Test_Platform.SessionExtension;
@@ -36,203 +37,403 @@ namespace Online_Test_Platform.Controllers
         }
         public IActionResult UserData()
         {
-            //markscategory(1);
-            RandomQuestion(1);
-            var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            string currentdate = DateTime.Now.ToShortDateString();
-            var res = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestDate == currentdate && x.TestCatagoryId == 1).FirstOrDefault();
-            if (res == null)
+            try
             {
-                if (randomList.Count == 10)
+                //markscategory(1);
+                RandomQuestion(1);
+                var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
+                int? userID = HttpContext.Session.GetInt32("UserID");
+                string currentdate = DateTime.Now.ToShortDateString();
+                var result = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestDate == currentdate && x.TestCatagoryId == 1).FirstOrDefault();
+                if (result == null)
                 {
-                    return RedirectToAction("UserResponse");
+                    if (randomList.Count == 10)
+                    {
+                        return RedirectToAction("UserResponse");
+                    }
+                    return View(data);
                 }
-                return View(data);
+                else
+                {
+                    return View("RepeatExam");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return View("RepeatExam");
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+
             }
 
         }
 
         [HttpPost]
-        public IActionResult UserData(IFormCollection frm)
+        public IActionResult UserData(IFormCollection ButtonCheck)
         {
-            string uanswer = frm["Mayur"].ToString();
-            HttpContext.Session.SetString("UserAnswer", uanswer);
-            UserMarksCal();
-            return RedirectToAction("UserData");
-        }
+            try
+            {
+                string UserAnswer = ButtonCheck["Question"].ToString();
+                HttpContext.Session.SetString("UserAnswer", UserAnswer);
+                UserMarksCal();
+                return RedirectToAction("UserData");
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
 
+            }
+
+        }
 
         public IActionResult ReasoningQuestions()
         {
-            markscategory(2);
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            string currentdate = DateTime.Now.ToShortDateString();
-            var res = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestDate == currentdate && x.TestCatagoryId == 2).FirstOrDefault();
-            if (res == null)
+            try
             {
-                var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
-                if (data == null)
+                QuestionCategory(2);
+                int? userID = HttpContext.Session.GetInt32("UserID");
+                string currentdate = DateTime.Now.ToShortDateString();
+                var result = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestDate == currentdate && x.TestCatagoryId == 2).FirstOrDefault();
+                if (result == null)
                 {
-                    return RedirectToAction("UserResponseReasoning");
+                    var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
+                    if (data == null)
+                    {
+                        return RedirectToAction("UserResponseReasoning");
+                    }
+                    return View(data);
                 }
-                return View(data);
+                else
+                {
+                    return View("RepeatExam");
+                }
+
             }
-            else
+            catch (Exception ex)
             {
-                return View("RepeatExam");
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+
             }
 
         }
 
         [HttpPost]
-        public IActionResult ReasoningQuestions(IFormCollection frm)
+        public IActionResult ReasoningQuestions(IFormCollection ButtonCheck)
         {
-            string uanswer = frm["Mayur"].ToString();
-            HttpContext.Session.SetString("UserAnswer", uanswer);
-            UserMarksCal();
-            return RedirectToAction("ReasoningQuestions");
+            try
+            {
+                string UserAnswer = ButtonCheck["Question"].ToString();
+                HttpContext.Session.SetString("UserAnswer", UserAnswer);
+                UserMarksCal();
+                return RedirectToAction("ReasoningQuestions");
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
 
+            }
         }
 
         public IActionResult VerbalQuestions()
         {
-            markscategory(3);
-            var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            string currentdate = DateTime.Now.ToShortDateString();
-            var res = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestDate == currentdate && x.TestCatagoryId == 3).FirstOrDefault();
-            if (res == null)
+            try
             {
-                if (data == null)
+                QuestionCategory(3);
+                var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
+                int? userID = HttpContext.Session.GetInt32("UserID");
+                string currentdate = DateTime.Now.ToShortDateString();
+                var result = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestDate == currentdate && x.TestCatagoryId == 3).FirstOrDefault();
+                if (result == null)
                 {
-                    return RedirectToAction("UserResponseVerbal");
+                    if (data == null)
+                    {
+                        return RedirectToAction("UserResponseVerbal");
+                    }
+                    return View(data);
                 }
-                return View(data);
+                else
+                {
+                    return View("RepeatExam");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return View("RepeatExam");
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+
             }
 
         }
 
         [HttpPost]
-        public IActionResult VerbalQuestions(IFormCollection frm)
+        public IActionResult VerbalQuestions(IFormCollection ButtonCheck)
         {
-            string uanswer = frm["Mayur"].ToString();
-            HttpContext.Session.SetString("UserAnswer", uanswer);
-            UserMarksCal();
-            return RedirectToAction("VerbalQuestions");
+            try
+            {
+                string UserAnswer = ButtonCheck["Question"].ToString();
+                HttpContext.Session.SetString("UserAnswer", UserAnswer);
+                UserMarksCal();
+                return RedirectToAction("VerbalQuestions");
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+            }
 
         }
 
         public IActionResult UserResponse()
         {
-            ExamEnd(1);
-            return View();
+            try
+            {
+                ExamEnd(1);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+            }
         }
 
         [HttpPost]
         public IActionResult UserResponse(string a)
         {
-            return RedirectToAction("Index", "Student");
+            try
+            {
+                return RedirectToAction("Index", "Student");
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+            }
         }
 
         public IActionResult UserMarks()
         {
-            HttpContext.Session.SetInt32("id", 1);
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            var res3 = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 1).ToList();          
-            return View(res3);
+            try
+            {
+                HttpContext.Session.SetInt32("id", 1);
+                int? userID = HttpContext.Session.GetInt32("UserID");
+                var Result = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 1).ToList();
+                return View(Result);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+            }
         }
 
         public IActionResult UserResponseReasoning()
         {
-            ExamEnd(2);
-            return View();
+            try
+            {
+                ExamEnd(2);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+            }
         }
 
         [HttpPost]
         public IActionResult UserResponseReasoning(string a)
         {
-            return RedirectToAction("Index", "Student");
+            try
+            {
+                return RedirectToAction("Index", "Student");
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+            }
         }
 
         public IActionResult UserResponseVerbal()
         {
-            ExamEnd(3);
-            return View();
+            try
+            {
+                ExamEnd(3);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+            }
         }
 
         [HttpPost]
         public IActionResult UserResponseVerbal(string a)
         {
-            return RedirectToAction("Index", "Student");
+            try
+            {
+                return RedirectToAction("Index", "Student");
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+            }
         }
 
         public IActionResult ReasoningMarks()
         {
-            HttpContext.Session.SetInt32("idrea", 2);
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            var res3 = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 2).ToList();
-            return View(res3);
+            try
+            {
+                HttpContext.Session.SetInt32("idrea", 2);
+                int? userID = HttpContext.Session.GetInt32("UserID");
+                var Result = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 2).ToList();
+                return View(Result);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+            }
         }
 
         public IActionResult VerbalMarks()
         {
-            HttpContext.Session.SetInt32("idver", 3);
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            var res3 = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 3).ToList();
-            return View(res3);
+            try
+            {
+                HttpContext.Session.SetInt32("idver", 3);
+                int? userID = HttpContext.Session.GetInt32("UserID");
+                var Result = testreport.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == 3).ToList();
+                return View(Result);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ControllerName = RouteData?.Values?["controller"]?.ToString(),
+                    ActionName = RouteData?.Values?["action"]?.ToString(),
+                    ErrorMessage = ex.Message
+                });
+            }
         }
 
 
-        public void markscategory(int categorynum)
+        public void QuestionCategory(int categorynum)
         {
 
-            Question q = new Question();
-            int? questionid = HttpContext.Session.GetInt32("Qid");
-            int? m = questionid;
-            if (m == null)
+            try
             {
-                var res = service.GetAsync().Result.Where(x => x.TestCatagoryId == categorynum).FirstOrDefault();
-                HttpContext.Session.SetSessionData<Question>("CorrectAnswer", res);
-                HttpContext.Session.SetInt32("Qid", res.QuestionId);
-
-            }
-            else
-            {
-                questionid++;
-                var res = service.GetAsync().Result.Where(x => x.QuestionId == questionid && x.TestCatagoryId == categorynum).FirstOrDefault();
-                HttpContext.Session.SetSessionData<Question>("CorrectAnswer", res);
-                if (res != null)
+                Question q = new Question();
+                int? questionid = HttpContext.Session.GetInt32("Qid");
+                // int? m = questionid;
+                if (questionid == null)
                 {
-                    HttpContext.Session.SetInt32("Qid", res.QuestionId);
-                }
+                    var result = service.GetAsync().Result.Where(x => x.TestCatagoryId == categorynum).FirstOrDefault();
+                    HttpContext.Session.SetSessionData<Question>("CorrectAnswer", result);
+                    HttpContext.Session.SetInt32("Qid", result.QuestionId);
 
+                }
+                else
+                {
+                    questionid++;
+                    var result = service.GetAsync().Result.Where(x => x.QuestionId == questionid && x.TestCatagoryId == categorynum).FirstOrDefault();
+                    HttpContext.Session.SetSessionData<Question?>("CorrectAnswer", result);
+                    if (result != null)
+                    {
+                        HttpContext.Session.SetInt32("Qid", result.QuestionId);
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+              
             }
         }
 
         public void UserMarksCal()
         {
-            string? useranswer = HttpContext.Session.GetString("UserAnswer");
-            var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
-            UserAnswer user = new UserAnswer();
-
-
-            if (useranswer != null)
+            try
             {
+                string? useranswer = HttpContext.Session.GetString("UserAnswer");
+                var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
+                UserAnswer user = new UserAnswer();
 
-                if (useranswer == data.CorrectAnswer)
+                if (useranswer != null)
                 {
-                    user.Marks = 1;
-                    HttpContext.Session.SetInt32("UserMarks", user.Marks);
 
+                    if (useranswer == data.CorrectAnswer)
+                    {
+                        user.Marks = 1;
+                        HttpContext.Session.SetInt32("UserMarks", user.Marks);
+
+                    }
+                    else
+                    {
+                        user.Marks = 0;
+                        HttpContext.Session.SetInt32("UserMarks", user.Marks);
+
+                    }
                 }
                 else
                 {
@@ -241,44 +442,48 @@ namespace Online_Test_Platform.Controllers
 
                 }
 
+                int? userID = HttpContext.Session.GetInt32("UserID");
+                int? UserMarks = HttpContext.Session.GetInt32("UserMarks");
+
+                user.QuestionId = data.QuestionId;
+                user.UserId = userID;
+                user.TestCatagoryId = data.TestCatagoryId;
+                user.UserAnswer1 = useranswer;
+                user.TestDate = DateTime.Now.ToShortDateString();
+                user.Marks = (int)UserMarks;
+
+                var result = answer.CreateAsync(user).Result;
             }
-            else
+            catch (Exception)
             {
-                user.Marks = 0;
-                HttpContext.Session.SetInt32("UserMarks", user.Marks);
-
+           
             }
-
-
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            int? UserMarks = HttpContext.Session.GetInt32("UserMarks");
-
-            user.QuestionId = data.QuestionId;
-            user.UserId = userID;
-            user.TestCatagoryId = data.TestCatagoryId;
-            user.UserAnswer1 = useranswer;
-            user.Marks = (int)UserMarks;
-            
-
-            var res = answer.CreateAsync(user).Result;
         }
 
         public void ExamEnd(int catnum)
         {
-            TestReport test = new TestReport();
-            int? userID = HttpContext.Session.GetInt32("UserID");
-            string? UserName = HttpContext.Session.GetString("UserName");
-            var res = answer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == catnum).ToList();
-            var res1 = answer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == catnum).FirstOrDefault();
-            var marks = res.Sum(x => x.Marks);
-            test.Marks = marks;
-            test.UserId = userID;
-            test.TestCatagoryId = res1.TestCatagoryId;
-            test.TestDate = DateTime.Now.ToShortDateString();
-            test.TotalMarks = 10;
-            test.UserName = UserName;
-            var res2 = testreport.CreateAsync(test);
-            HttpContext.Session.Remove("Qid");
+            try
+            {
+                TestReport test = new TestReport();
+                int? userID = HttpContext.Session.GetInt32("UserID");
+                string? UserName = HttpContext.Session.GetString("UserName");
+                var result = answer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == catnum && x.TestDate== DateTime.Now.ToShortDateString()).ToList();
+                var NewResult = answer.GetAsync().Result.Where(x => x.UserId == userID && x.TestCatagoryId == catnum).FirstOrDefault();
+                var marks = result.Sum(x => x.Marks);
+                test.Marks = marks;
+                test.UserId = userID;
+                test.TestCatagoryId = NewResult?.TestCatagoryId;
+                test.TestDate = DateTime.Now.ToShortDateString();
+                test.TotalMarks = 10;
+                test.UserName = UserName;
+                var TestResult = testreport.CreateAsync(test);
+                HttpContext.Session.Remove("Qid");
+                
+            }
+            catch (Exception)
+            {
+              
+            }
         }
 
         public IActionResult RepeatExam()
@@ -288,29 +493,38 @@ namespace Online_Test_Platform.Controllers
 
         public int Randomnumber()
         {
-            Random rnd = new Random();
-            int num = rnd.Next(1, 11);
-            return num;
+          
+                Random rnd = new Random();
+                int num = rnd.Next(1, 11);
+                return num;
+            
         }
 
 
         public static List<int> randomList = new List<int>();
         public void RandomQuestion(int categorynum)
         {
-            int num = 0;
-            do
+            try
             {
-                num = Randomnumber();
+                int num = 0;
+                do
+                {
+                    num = Randomnumber();
+                    if (!randomList.Contains(num))
+                    {
+                        var result = service.GetAsync().Result.Where(x => x.TestCatagoryId == categorynum && x.QuestionId == num).FirstOrDefault();
+                        HttpContext.Session.SetSessionData<Question?>("CorrectAnswer", result);
+                    }
+                } while (randomList.Contains(num));
+
                 if (!randomList.Contains(num))
                 {
-                    var resnew = service.GetAsync().Result.Where(x => x.TestCatagoryId == categorynum && x.QuestionId == num).FirstOrDefault();
-                    HttpContext.Session.SetSessionData<Question>("CorrectAnswer", resnew);
+                    randomList.Add(num);
                 }
-            } while (randomList.Contains(num));
-
-            if (!randomList.Contains(num))
+            }
+            catch (Exception)
             {
-                randomList.Add(num);
+             
             }
         }
 

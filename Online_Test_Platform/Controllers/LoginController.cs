@@ -20,25 +20,25 @@ namespace Online_Test_Platform.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(UserInfo user)
+        public IActionResult Index(UserInfo user)
         {
-            var res = service.GetAsync().Result.Where(x => x.EmailId == user.EmailId).FirstOrDefault();
-            if(res == null)
+            var result = service.GetAsync().Result.Where(x => x.EmailId == user.EmailId).FirstOrDefault();
+            if(result == null)
             {
                 ViewBag.Message = "Wrong Credential";
                 return View(user);
 
             }
-            if(user.EmailId==res.EmailId)
+            if(user.EmailId== result.EmailId)
             {
-                var decryptedPassword = await DecryptAsync(res.UserPassword);
+                var decryptedPassword =  DecryptAsync(result.UserPassword);
                 if (user.UserPassword== decryptedPassword)
                 {
-                    HttpContext.Session.SetInt32("UserID", res.UserId);
+                    HttpContext.Session.SetInt32("UserID", result.UserId);
                  
-                    if (res.RoleId==1)
+                    if (result.RoleId==1)
                     {
-                        HttpContext.Session.SetString("UserName", res.UserName);
+                        HttpContext.Session.SetString("UserName", result.UserName);
                         return RedirectToAction("Index", "Student");
                     }
                     else
@@ -59,13 +59,13 @@ namespace Online_Test_Platform.Controllers
             }
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             var user = new UserInfo();
             return View(user);
         }
         [HttpPost]
-        public async Task<IActionResult> Create(UserInfo Info)
+        public IActionResult Create(UserInfo Info)
         {
            var UserData= service.GetAsync().Result.Where(x=>x.EmailId==Info.EmailId).FirstOrDefault();
             if(UserData==null)
@@ -80,7 +80,7 @@ namespace Online_Test_Platform.Controllers
                 {
                     Info.RoleId = 1;
                     Info.UserPassword = EncryptAsync(Info.UserPassword);
-                    var res = await service.CreateAsync(Info);
+                    var res =  service.CreateAsync(Info);
                     ViewBag.Message = "User Register Successfully";
                     return View(Info);
                 }
@@ -98,32 +98,6 @@ namespace Online_Test_Platform.Controllers
         }
 
 
-        public async Task<string> DecryptAsync(string text)
-        {
-            var textToDecrypt = text;
-            string toReturn = "";
-            string publickey = "12345678";
-            string secretkey = "87654321";
-            byte[] privatekeyByte = { };
-            privatekeyByte = System.Text.Encoding.UTF8.GetBytes(secretkey);
-            byte[] publickeybyte = { };
-            publickeybyte = System.Text.Encoding.UTF8.GetBytes(publickey);
-            MemoryStream ms = null;
-            CryptoStream cs = null;
-            byte[] inputbyteArray = new byte[textToDecrypt.Replace(" ", "+").Length];
-            inputbyteArray = Convert.FromBase64String(textToDecrypt.Replace(" ", "+"));
-            using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
-            {
-                ms = new MemoryStream();
-                cs = new CryptoStream(ms, des.CreateDecryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write);
-                cs.Write(inputbyteArray, 0, inputbyteArray.Length);
-                cs.FlushFinalBlock();
-                Encoding encoding = Encoding.UTF8;
-                toReturn = encoding.GetString(ms.ToArray());
-            }
-            return toReturn;
-        }
-
         public string EncryptAsync(string message)
         {
             var textToEncrypt = message;
@@ -134,13 +108,12 @@ namespace Online_Test_Platform.Controllers
             secretkeyByte = System.Text.Encoding.UTF8.GetBytes(secretKey);
             byte[] publickeybyte;
             publickeybyte = System.Text.Encoding.UTF8.GetBytes(publicKey);
-            MemoryStream ms = null;
-            CryptoStream cs = null;
+
             byte[] inputbyteArray = System.Text.Encoding.UTF8.GetBytes(textToEncrypt);
-            using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
+            using (DES des = DES.Create())
             {
-                ms = new MemoryStream();
-                cs = new CryptoStream(ms, des.CreateEncryptor(publickeybyte, secretkeyByte), CryptoStreamMode.Write);
+                MemoryStream ms = new MemoryStream();
+                CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(publickeybyte, secretkeyByte), CryptoStreamMode.Write);
                 cs.Write(inputbyteArray, 0, inputbyteArray.Length);
                 cs.FlushFinalBlock();
                 toReturn = Convert.ToBase64String(ms.ToArray());
@@ -149,10 +122,34 @@ namespace Online_Test_Platform.Controllers
 
         }
 
+
+        public string DecryptAsync(string text)
+        {
+            var textToDecrypt = text;
+            string toReturn = "";
+            string publickey = "12345678";
+            string secretkey = "87654321";
+            byte[] privatekeyByte = { };
+            privatekeyByte = System.Text.Encoding.UTF8.GetBytes(secretkey);
+            byte[] publickeybyte = { };
+            publickeybyte = System.Text.Encoding.UTF8.GetBytes(publickey);
+
+            byte[] inputbyteArray = Convert.FromBase64String(textToDecrypt.Replace(" ", "+"));
+            using (DES des = DES.Create())
+            {
+                MemoryStream ms = new MemoryStream();
+                CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write);
+                cs.Write(inputbyteArray, 0, inputbyteArray.Length);
+                cs.FlushFinalBlock();
+                Encoding encoding = Encoding.UTF8;
+                toReturn = encoding.GetString(ms.ToArray());
+            }
+            return toReturn;
+        }
+
     }
 }
 
 
 
 
-//P@ssw0rd

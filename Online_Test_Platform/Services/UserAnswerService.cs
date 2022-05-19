@@ -26,11 +26,9 @@ namespace Online_Test_Platform.Services
         async Task<UserAnswer> IService<UserAnswer, int>.GetByIdAsync(int id)
         {
             var res = await context.UserAnswers.FindAsync(id);
-            if (res == null)
-            {
-                return null;
-            }
+#pragma warning disable CS8603 // Possible null reference return.
             return res;
+#pragma warning restore CS8603 // Possible null reference return.
         }
     }
 }

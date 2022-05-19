@@ -19,8 +19,8 @@ namespace Online_Test_Platform.Controllers
 
         public IActionResult AptitudeTestReport()
         {
-            var res = service.GetAsync().Result.Where(x => x.TestCatagoryId == 1);
-            return View(res);
+            var Result = service.GetAsync().Result.Where(x => x.TestCatagoryId == 1);
+            return View(Result);
         }
 
         public IActionResult ReasoningTestReport()
@@ -40,31 +40,31 @@ namespace Online_Test_Platform.Controllers
             if (search == 0)
             {
                 ViewBag.Message = "No Record Found";
-                var res = service.GetAsync().Result.Where(e => e.UserId == search).ToList();
-                return View(res);
+                var Result = service.GetAsync().Result.Where(e => e.UserId == search).ToList();
+                return View(Result);
             }
            else if (SearchBy == "UserID")
             {
-                var res = service.GetAsync().Result.Where(e => e.UserId == search && e.TestCatagoryId==1).ToList();
-                if (res.Count == 0)
+                var Result = service.GetAsync().Result.Where(e => e.UserId == search && e.TestCatagoryId==1).ToList();
+                if (Result.Count == 0)
                 {
                     ViewBag.Message = "No Record Found";
                     // return RedirectToAction("Index");
                 }
                
-                return View(res);
+                return View(Result);
                                
             }
             else if (SearchBy == "Marks")
             {
-                var res = service.GetAsync().Result.Where(e => e.Marks == search && e.TestCatagoryId == 1).ToList();
-                if (res.Count == 0)
+                var Result = service.GetAsync().Result.Where(e => e.Marks == search && e.TestCatagoryId == 1).ToList();
+                if (Result.Count == 0)
                 {
                     ViewBag.Message = "No Record Found";
 
                 }
                
-              return View(res);
+              return View(Result);
                 
             }
             else
@@ -79,31 +79,31 @@ namespace Online_Test_Platform.Controllers
             if (search == 0)
             {
                 ViewBag.Message = "No Record Found";
-                var res = service.GetAsync().Result.Where(e => e.UserId == search).ToList();
-                return View(res);
+                var Result = service.GetAsync().Result.Where(e => e.UserId == search).ToList();
+                return View(Result);
             }
             else if (SearchBy == "UserID")
             {
-                var res = service.GetAsync().Result.Where(e => e.UserId == search && e.TestCatagoryId == 2).ToList();
-                if (res.Count == 0)
+                var Result = service.GetAsync().Result.Where(e => e.UserId == search && e.TestCatagoryId == 2).ToList();
+                if (Result.Count == 0)
                 {
                     ViewBag.Message = "No Record Found";
                     // return RedirectToAction("Index");
                 }
 
-                return View(res);
+                return View(Result);
 
             }
             else if (SearchBy == "Marks")
             {
-                var res = service.GetAsync().Result.Where(e => e.Marks == search && e.TestCatagoryId == 2).ToList();
-                if (res.Count == 0)
+                var Result = service.GetAsync().Result.Where(e => e.Marks == search && e.TestCatagoryId == 2).ToList();
+                if (Result.Count == 0)
                 {
                     ViewBag.Message = "No Record Found";
 
                 }
 
-                return View(res);
+                return View(Result);
 
             }
             else
@@ -118,31 +118,31 @@ namespace Online_Test_Platform.Controllers
             if (search == 0)
             {
                 ViewBag.Message = "No Record Found";
-                var res = service.GetAsync().Result.Where(e => e.UserId == search).ToList();
-                return View(res);
+                var Result = service.GetAsync().Result.Where(e => e.UserId == search).ToList();
+                return View(Result);
             }
             else if (SearchBy == "UserID")
             {
-                var res = service.GetAsync().Result.Where(e => e.UserId == search && e.TestCatagoryId == 3).ToList();
-                if (res.Count == 0)
+                var Result = service.GetAsync().Result.Where(e => e.UserId == search && e.TestCatagoryId == 3).ToList();
+                if (Result.Count == 0)
                 {
                     ViewBag.Message = "No Record Found";
                     // return RedirectToAction("Index");
                 }
 
-                return View(res);
+                return View(Result);
 
             }
             else if (SearchBy == "Marks")
             {
-                var res = service.GetAsync().Result.Where(e => e.Marks == search && e.TestCatagoryId == 3).ToList();
-                if (res.Count == 0)
+                var Result = service.GetAsync().Result.Where(e => e.Marks == search && e.TestCatagoryId == 3).ToList();
+                if (Result.Count == 0)
                 {
                     ViewBag.Message = "No Record Found";
 
                 }
 
-                return View(res);
+                return View(Result);
 
             }
             else

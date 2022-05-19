@@ -129,6 +129,10 @@ namespace Online_Test_Platform.Models
 
                 entity.Property(e => e.TestCatagoryId).HasColumnName("TestCatagoryID");
 
+                entity.Property(e => e.TestDate)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.UserAnswer1)
                     .HasMaxLength(200)
                     .IsUnicode(false)
