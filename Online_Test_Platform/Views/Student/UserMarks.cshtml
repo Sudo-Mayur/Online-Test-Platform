@@ -53,7 +53,7 @@
                 @Html.DisplayFor(modelItem => item.TestDate)
             </td>
             <td>              
-                @Html.ActionLink("Details", "MarksDetails","DetailMarks") 
+                @Html.ActionLink("Details", "MarksDetails","DetailMarks",new {  id=item.TestDate }) 
             </td>
         </tr>
 }

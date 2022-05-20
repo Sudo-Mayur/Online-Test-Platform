@@ -29,5 +29,4 @@ namespace Online_Test_Platform.SessionExtension
 }
 
 
-//var id = HttpContext.Session.GetString("LoginID");
-//HttpContext.Session.SetString("LoginID", get.Id);
+

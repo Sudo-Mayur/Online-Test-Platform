@@ -21,9 +21,7 @@ namespace Online_Test_Platform.Services
             }
             catch (Exception)
             {
-#pragma warning disable CS8603 // Possible null reference return.
-                return null;
-#pragma warning restore CS8603 // Possible null reference return.
+                throw;
             }
         }
 
@@ -36,9 +34,7 @@ namespace Online_Test_Platform.Services
             }
             catch (Exception)
             {
-#pragma warning disable CS8603 // Possible null reference return.
-                return null;
-#pragma warning restore CS8603 // Possible null reference return.
+                throw;
             }
         }
 

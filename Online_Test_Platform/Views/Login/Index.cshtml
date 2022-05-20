@@ -3,41 +3,7 @@
 @{
     ViewData["Title"] = "Login";
 }
-@*<div class="center">
-<h1>Login</h1>
-<br>
-<h4>@ViewBag.Message</h4>
-<hr />
-    <div class="col-md-4">
-        <form asp-action="Index">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-          
-            <div class="form-group">
-                <input asp-for="EmailId" placeholder="Email" class="form-control" />
-                <span asp-validation-for="EmailId" class="text-danger"></span>
-            </div>          
-            <br>         
-            <div class="form-group">
-                <input asp-for="UserPassword" placeholder="Password" class="form-control" type="Password"/>
-                <span asp-validation-for="UserPassword" class="text-danger"></span>
-            </div>         
-        
-            <br>
-            <div class="center">
-            <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-primary" />
-            </div>
-            </div>
-        </form>
-    </div>
-</div>
 
-
-
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}*@
  <div class="center">
      <div class="form-group">
      <a class="btn btn-primary" asp-area="" asp-controller="Login" asp-action="Create">Registration</a>

@@ -39,7 +39,7 @@ namespace Online_Test_Platform.Controllers
         {
             try
             {
-                //markscategory(1);
+               //markscategory(1);
                 RandomQuestion(1);
                 var data = HttpContext.Session.GetSessionData<Question>("CorrectAnswer");
                 int? userID = HttpContext.Session.GetInt32("UserID");
@@ -66,9 +66,7 @@ namespace Online_Test_Platform.Controllers
                     ActionName = RouteData?.Values?["action"]?.ToString(),
                     ErrorMessage = ex.Message
                 });
-
             }
-
         }
 
         [HttpPost]
@@ -91,7 +89,6 @@ namespace Online_Test_Platform.Controllers
                 });
 
             }
-
         }
 
         public IActionResult ReasoningQuestions()
@@ -115,7 +112,6 @@ namespace Online_Test_Platform.Controllers
                 {
                     return View("RepeatExam");
                 }
-
             }
             catch (Exception ex)
             {
@@ -125,9 +121,7 @@ namespace Online_Test_Platform.Controllers
                     ActionName = RouteData?.Values?["action"]?.ToString(),
                     ErrorMessage = ex.Message
                 });
-
             }
-
         }
 
         [HttpPost]
@@ -148,7 +142,6 @@ namespace Online_Test_Platform.Controllers
                     ActionName = RouteData?.Values?["action"]?.ToString(),
                     ErrorMessage = ex.Message
                 });
-
             }
         }
 
@@ -182,9 +175,7 @@ namespace Online_Test_Platform.Controllers
                     ActionName = RouteData?.Values?["action"]?.ToString(),
                     ErrorMessage = ex.Message
                 });
-
             }
-
         }
 
         [HttpPost]
@@ -407,7 +398,7 @@ namespace Online_Test_Platform.Controllers
             }
             catch (Exception)
             {
-              
+                throw;
             }
         }
 
@@ -456,7 +447,7 @@ namespace Online_Test_Platform.Controllers
             }
             catch (Exception)
             {
-           
+                throw;
             }
         }
 
@@ -482,7 +473,7 @@ namespace Online_Test_Platform.Controllers
             }
             catch (Exception)
             {
-              
+                throw;
             }
         }
 
@@ -521,10 +512,11 @@ namespace Online_Test_Platform.Controllers
                 {
                     randomList.Add(num);
                 }
+              
             }
             catch (Exception)
             {
-             
+                throw;
             }
         }
 

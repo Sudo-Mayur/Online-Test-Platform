@@ -19,10 +19,8 @@ namespace Online_Test_Platform.Controllers
         {
             try
             {
-            
                 int? AptitudeQuestion = HttpContext.Session.GetInt32("id");
                 CategoryID(AptitudeQuestion);
-                //throw new Exception();
                 return View();
             }
             catch (Exception ex)
